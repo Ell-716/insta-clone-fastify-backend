@@ -7,9 +7,12 @@
     "test": "test"
   },
   "scripts": {
-    "test": "node --test test/**/*.test.js",
-    "start": "fastify start -l info app.js",
-    "dev": "fastify start -w -l info -P app.js"
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node build/server.js",
+    "dev": "tsx watch src/server.ts",
+    "poststart": "rimraf build",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
