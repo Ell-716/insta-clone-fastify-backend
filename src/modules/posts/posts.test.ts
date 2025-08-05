@@ -31,4 +31,39 @@ describe("POST /posts", () => {
     expect(response.statusCode).toBe(201);
     expect(JSON.parse(response.payload)).toEqual(createdPost);
   });
+
+  it("should get all posts and return them with a 200 status code", async () => {
+    const app = Fastify();
+
+    const allPosts = [
+      {
+        id: 1,
+        img_url: "http://example.com/image1.jpg",
+        caption: "Post 1 caption",
+      },
+      {
+        id: 2,
+        img_url: "http://example.com/image2.jpg",
+        caption: "Post 2 caption",
+      },
+    ];
+
+    app.decorate("transactions", {
+      posts: {
+        getById: jest.fn(),
+        getAll: jest.fn().mockReturnValue(allPosts),
+        create: jest.fn(),
+      },
+    });
+
+    app.register(postsRoutes);
+
+    const response = await app.inject({
+      method: "GET",
+      url: "/posts",
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(JSON.parse(response.payload)).toEqual(allPosts);
+  });
 });
