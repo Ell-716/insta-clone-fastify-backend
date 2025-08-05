@@ -1,3 +1,4 @@
+// src/plugins/database.plugin.ts
 import type { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import Database from "better-sqlite3";
@@ -17,15 +18,23 @@ async function databasePluginHelper(fastify: FastifyInstance) {
   const db = new Database("./database.db");
   fastify.log.info("SQLite database connection established.");
 
-  // Create a simple table for testing if it doesn't exist
   db.exec(`
-  CREATE TABLE IF NOT EXISTS posts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    img_url TEXT NOT NULL,
-    caption TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  );
-`);
+    CREATE TABLE IF NOT EXISTS posts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      img_url TEXT NOT NULL,
+      caption TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS reels (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      video_url TEXT NOT NULL,
+      thumbnail_url TEXT NOT NULL,
+      caption TEXT,
+      views INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
 
   const transactions = createTransactionHelpers(db);
 
@@ -40,5 +49,4 @@ async function databasePluginHelper(fastify: FastifyInstance) {
 }
 
 const databasePlugin = fp(databasePluginHelper);
-
 export { databasePlugin };

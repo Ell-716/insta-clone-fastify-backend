@@ -18,6 +18,10 @@ describe("POST /posts", () => {
         getAll: jest.fn(),
         create: jest.fn().mockReturnValue(createdPost),
       },
+      reels: {
+        getAll: jest.fn(),
+        create: jest.fn(),
+      },
     });
 
     app.register(postsRoutes);
@@ -52,6 +56,10 @@ describe("POST /posts", () => {
       posts: {
         getById: jest.fn(),
         getAll: jest.fn().mockReturnValue(allPosts),
+        create: jest.fn(),
+      },
+      reels: {
+        getAll: jest.fn(),
         create: jest.fn(),
       },
     });
