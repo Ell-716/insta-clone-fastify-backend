@@ -20,7 +20,7 @@ const reelSchema = z.object({
 });
 
 // Used to validate GET /reels/grid response
-export const reelsSchema = z.array(reelSchema);
+const reelsSchema = z.array(reelSchema);
 
 // Infer TS types from Zod schemas
 type CreateReelDto = z.infer<typeof createReelDtoSchema>;

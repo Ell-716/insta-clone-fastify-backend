@@ -14,7 +14,7 @@ const postSchema = z.object({
 });
 
 // This will be useful for validating the response from the `GET /posts` endpoint.
-export const postsSchema = z.array(postSchema);
+const postsSchema = z.array(postSchema);
 
 // Then, we infer the TypeScript types directly from our Zod schemas.
 // This avoids duplicating type definitions and ensures our types always match our validation rules.
