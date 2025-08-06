@@ -14,7 +14,19 @@ describe("GET /tagged/grid", () => {
     ];
 
     app.decorate("transactions", {
-      getTaggedGrid: async () => mockTagged,
+      posts: {
+        getById: jest.fn(),
+        getAll: jest.fn(),
+        create: jest.fn(),
+      },
+      reels: {
+        getAll: jest.fn(),
+        create: jest.fn(),
+      },
+      tagged: {
+        getTagged: () => mockTagged,
+        create: jest.fn(),
+      },
     });
 
     app.register(taggedRoutes);
