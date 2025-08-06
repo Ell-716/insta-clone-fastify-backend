@@ -2,6 +2,7 @@
 import type { Database } from "better-sqlite3";
 import { CreatePostDto } from "src/modules/posts/posts.types";
 import { CreateReelDto } from "src/modules/reels/reels.types";
+import { CreateTaggedDto } from "src/modules/tagged/tagged.types";
 
 const createTransactionHelpers = (db: Database) => {
   const statements = {
@@ -17,6 +18,12 @@ const createTransactionHelpers = (db: Database) => {
     createReel: db.prepare(
       "INSERT INTO reels (video_url, thumbnail_url, caption, views) VALUES (@video_url, @thumbnail_url, @caption, @views) RETURNING *"
     ),
+
+    // Tagged
+    getTaggedGrid: db.prepare("SELECT * FROM tagged"),
+    createTagged: db.prepare(
+      "INSERT INTO tagged (img_url, caption, user) VALUES (@img_url, @caption, @user) RETURNING *"
+    ),
   };
 
   const posts = {
@@ -30,7 +37,12 @@ const createTransactionHelpers = (db: Database) => {
     create: (data: CreateReelDto) => statements.createReel.get(data),
   };
 
-  return { posts, reels };
+  const tagged = {
+    getTagged: () => statements.getTaggedGrid.all(),
+    create: (data: CreateTaggedDto) => statements.createTagged.get(data),
+  };
+
+  return { posts, reels, tagged };
 };
 
 export type TransactionHelpers = ReturnType<typeof createTransactionHelpers>;
