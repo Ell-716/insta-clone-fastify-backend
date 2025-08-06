@@ -5,7 +5,7 @@ const taggedRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
   const service = taggedService(fastify);
 
   // GET /tagged/grid
-  fastify.get("/tagged/grid", async (_request, reply) => {
+  fastify.get("/tagged/grid", async (request, reply) => {
     const tagged = await service.getTagged();
     return reply.code(200).send(tagged);
   });
