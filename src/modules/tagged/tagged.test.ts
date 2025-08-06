@@ -27,6 +27,12 @@ describe("GET /tagged/grid", () => {
         getTagged: () => mockTagged,
         create: jest.fn(),
       },
+
+      highlights: {
+        getAll: jest.fn(),
+        getById: jest.fn(),
+        create: jest.fn(),
+      },
     });
 
     app.register(taggedRoutes);

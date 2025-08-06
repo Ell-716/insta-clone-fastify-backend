@@ -36,6 +36,11 @@ describe("GET /reels/grid", () => {
         getTagged: jest.fn(),
         create: jest.fn(),
       },
+      highlights: {
+        getAll: jest.fn(),
+        getById: jest.fn(),
+        create: jest.fn(),
+      },
     });
 
     app.register(reelsRoutes);
