@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const createHighlightsDtoSchema = z.object({
+const createHighlightDtoSchema = z.object({
     cover_image_url: z.string().url(),
     title: z.string().nullable(),
 });
@@ -13,13 +13,13 @@ const highlightSchema = z.object({
 
 const highlightsArraySchema = z.array(highlightSchema);
 
-type CreateHighlightsDto = z.infer<typeof createHighlightsDtoSchema>;
+type CreateHighlightDto = z.infer<typeof createHighlightDtoSchema>;
 type Highlight = z.infer<typeof highlightSchema>;
 
 export {
-    createHighlightsDtoSchema,
+    createHighlightDtoSchema,
     highlightSchema,
     highlightsArraySchema,
-    CreateHighlightsDto,
+    CreateHighlightDto,
     Highlight
 };

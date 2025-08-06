@@ -3,6 +3,7 @@ import type { Database } from "better-sqlite3";
 import { CreatePostDto } from "src/modules/posts/posts.types";
 import { CreateReelDto } from "src/modules/reels/reels.types";
 import { CreateTaggedDto } from "src/modules/tagged/tagged.types";
+import { CreateHighlightDto } from "src/modules/highlights/highlights.types";
 
 const createTransactionHelpers = (db: Database) => {
   const statements = {
@@ -24,6 +25,13 @@ const createTransactionHelpers = (db: Database) => {
     createTagged: db.prepare(
       "INSERT INTO tagged (img_url, caption, user) VALUES (@img_url, @caption, @user) RETURNING *"
     ),
+
+    // Highlights
+    getAllHighlights: db.prepare("SELECT * FROM highlights"),
+    getHighlightById: db.prepare("SELECT * FROM highlights WHERE id = ?"),
+    createHighlight: db.prepare(
+        "INSERT INTO highlights (cover_image_url, title) VALUES (@cover_image_url, @title) RETURNING *"
+    ),
   };
 
   const posts = {
@@ -42,7 +50,13 @@ const createTransactionHelpers = (db: Database) => {
     create: (data: CreateTaggedDto) => statements.createTagged.get(data),
   };
 
-  return { posts, reels, tagged };
+  const highlights = {
+      getAll: () => statements.getAllHighlights.all(),
+      getById: (id: number) => statements.getHighlightById.get(id),
+      create: (data: CreateHighlightDto) => statements.createHighlight.get(data),
+  };
+
+  return { posts, reels, tagged, highlights };
 };
 
 export type TransactionHelpers = ReturnType<typeof createTransactionHelpers>;
